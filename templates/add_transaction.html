@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+
+{% block title %}Add Transaction{% endblock %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+
+    <div class="col-md-7 col-lg-6">
+
+        <div class="card shadow-sm border-0">
+
+            <div class="card-body p-4">
+
+                <h2 class="fw-bold mb-1">Add Transaction</h2>
+                <p class="text-muted mb-4">
+                    Record your income or expense.
+                </p>
+
+                <form method="post">
+
+                    <label class="form-label">Transaction Type</label>
+
+                    <select
+                        name="type"
+                        class="form-select mb-3"
+                        required>
+
+                        <option value="expense">Expense</option>
+                        <option value="income">Income</option>
+
+                    </select>
+
+
+                    <label class="form-label">Amount</label>
+
+                    <input
+                        type="number"
+                        name="amount"
+                        class="form-control mb-3"
+                        step="0.01"
+                        min="0"
+                        placeholder="Enter amount"
+                        required>
+
+
+                    <label class="form-label">Category</label>
+
+                    <select
+                        name="category"
+                        class="form-select mb-3"
+                        required>
+
+                        <option value="">Select category</option>
+                        <option value="Food">Food</option>
+                        <option value="Travel">Travel</option>
+                        <option value="Shopping">Shopping</option>
+                        <option value="Bills">Bills</option>
+                        <option value="Salary">Salary</option>
+                        <option value="Other">Other</option>
+
+                    </select>
+
+
+                    <label class="form-label">Description</label>
+
+                    <input
+                        type="text"
+                        name="description"
+                        class="form-control mb-3"
+                        placeholder="e.g. Monthly salary / Grocery">
+
+
+                    <label class="form-label">Date</label>
+
+                    <input
+                        type="date"
+                        name="date"
+                        class="form-control mb-4"
+                        required>
+
+
+                    <div class="d-flex gap-2">
+
+                        <a
+                            href="{{ url_for('dashboard') }}"
+                            class="btn btn-outline-secondary w-50">
+                            Cancel
+                        </a>
+
+                        <button
+                            type="submit"
+                            class="btn btn-primary w-50">
+                            Save Transaction
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
