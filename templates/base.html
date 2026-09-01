@@ -67,7 +67,19 @@
 
         {% endfor %}
 
-    {% endwith %}
+    {% endwith %}    
+    <div class="container mt-3">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="{{ url_for('dashboard') }}">Dashboard</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+                {{ self.title() }}
+            </li>
+        </ol>
+    </nav>
+</div>
 
     {% block content %}{% endblock %}
 
