@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h2 class="fw-bold">Dashboard</h2>
+        <p class="text-muted mb-0">Track your income and expenses.</p>
+    </div>
+
+    <a href="{{ url_for('add_transaction') }}" class="btn btn-primary">
+        + Add Transaction
+    </a>
+</div>
+
+<div class="row g-3 mb-4">
+
+    <div class="col-md-4">
+        <div class="card shadow-sm border-0">
+            <div class="card-body">
+                <p class="text-muted mb-1">Total Income</p>
+                <h3 class="fw-bold text-success">
+                    ₹{{ "%.2f"|format(total_income|default(0)) }}
+                </h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card shadow-sm border-0">
+            <div class="card-body">
+                <p class="text-muted mb-1">Total Expenses</p>
+                <h3 class="fw-bold text-danger">
+                    ₹{{ "%.2f"|format(total_expense|default(0)) }}
+                </h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card shadow-sm border-0">
+            <div class="card-body">
+                <p class="text-muted mb-1">Balance</p>
+                <h3 class="fw-bold">
+                    ₹{{ "%.2f"|format(balance|default(0)) }}
+                </h3>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="card shadow-sm border-0">
+    <div class="card-body">
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5 class="fw-bold mb-0">Recent Transactions</h5>
+
+            <a href="{{ url_for('transactions') }}"
+               class="btn btn-sm btn-outline-primary">
+                View All
+            </a>
+        </div>
+
+        {% if transactions %}
+
+        <div class="table-responsive">
+            <table class="table align-middle">
+
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Description</th>
+                        <th>Category</th>
+                        <th>Type</th>
+                        <th class="text-end">Amount</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                {% for transaction in transactions[:5] %}
+
+                    <tr>
+                        <td>{{ transaction.date }}</td>
+
+                        <td>
+                            {{ transaction.description }}
+                        </td>
+
+                        <td>
+                            {{ transaction.category }}
+                        </td>
+
+                        <td>
+                            {% if transaction.type == 'income' %}
+                                <span class="badge bg-success">
+                                    Income
+                                </span>
+                            {% else %}
+                                <span class="badge bg-danger">
+                                    Expense
+                                </span>
+                            {% endif %}
+                        </td>
+
+                        <td class="text-end fw-bold">
+                            ₹{{ "%.2f"|format(transaction.amount) }}
+                        </td>
+                    </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+        </div>
+
+        {% else %}
+
+        <div class="text-center py-5">
+            <h5>No transactions yet</h5>
+            <p class="text-muted">
+                Add your first transaction to get started.
+            </p>
+
+            <a href="{{ url_for('add_transaction') }}"
+               class="btn btn-primary">
+                Add Transaction
+            </a>
+        </div>
+
+        {% endif %}
+
+    </div>
+</div>
+
+{% endblock %}
