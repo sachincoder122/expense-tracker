@@ -7,7 +7,7 @@
 <div class="d-flex justify-content-between align-items-center mb-4">
     <div>
         <h2 class="fw-bold">Dashboard</h2>
-        <p class="text-muted mb-0">Track your income and expenses.</p>
+        <p class="text-muted">Your financial overview</p>
     </div>
 
     <a href="{{ url_for('add_transaction') }}" class="btn btn-primary">
@@ -15,6 +15,8 @@
     </a>
 </div>
 
+
+<!-- Summary Cards -->
 <div class="row g-3 mb-4">
 
     <div class="col-md-4">
@@ -22,7 +24,7 @@
             <div class="card-body">
                 <p class="text-muted mb-1">Total Income</p>
                 <h3 class="fw-bold text-success">
-                    ₹{{ "%.2f"|format(total_income|default(0)) }}
+                    ₹{{ "%.2f"|format(income) }}
                 </h3>
             </div>
         </div>
@@ -31,9 +33,9 @@
     <div class="col-md-4">
         <div class="card shadow-sm border-0">
             <div class="card-body">
-                <p class="text-muted mb-1">Total Expenses</p>
+                <p class="text-muted mb-1">Total Expense</p>
                 <h3 class="fw-bold text-danger">
-                    ₹{{ "%.2f"|format(total_expense|default(0)) }}
+                    ₹{{ "%.2f"|format(expense) }}
                 </h3>
             </div>
         </div>
@@ -44,7 +46,7 @@
             <div class="card-body">
                 <p class="text-muted mb-1">Balance</p>
                 <h3 class="fw-bold">
-                    ₹{{ "%.2f"|format(balance|default(0)) }}
+                    ₹{{ "%.2f"|format(balance) }}
                 </h3>
             </div>
         </div>
@@ -52,7 +54,10 @@
 
 </div>
 
+
+<!-- Recent Transactions -->
 <div class="card shadow-sm border-0">
+
     <div class="card-body">
 
         <div class="d-flex justify-content-between align-items-center mb-3">
@@ -64,10 +69,12 @@
             </a>
         </div>
 
-        {% if transactions %}
+
+        {% if recent %}
 
         <div class="table-responsive">
-            <table class="table align-middle">
+
+            <table class="table table-hover align-middle">
 
                 <thead>
                     <tr>
@@ -81,34 +88,40 @@
 
                 <tbody>
 
-                {% for transaction in transactions[:5] %}
+                {% for t in recent %}
 
                     <tr>
-                        <td>{{ transaction.date }}</td>
+
+                        <td>{{ t["date"] }}</td>
 
                         <td>
-                            {{ transaction.description }}
+                            {{ t["description"] }}
                         </td>
 
                         <td>
-                            {{ transaction.category }}
+                            {{ t["category"] }}
                         </td>
 
                         <td>
-                            {% if transaction.type == 'income' %}
+                            {% if t["type"] == "income" %}
+
                                 <span class="badge bg-success">
                                     Income
                                 </span>
+
                             {% else %}
+
                                 <span class="badge bg-danger">
                                     Expense
                                 </span>
+
                             {% endif %}
                         </td>
 
                         <td class="text-end fw-bold">
-                            ₹{{ "%.2f"|format(transaction.amount) }}
+                            ₹{{ "%.2f"|format(t["amount"]) }}
                         </td>
+
                     </tr>
 
                 {% endfor %}
@@ -116,25 +129,30 @@
                 </tbody>
 
             </table>
+
         </div>
 
         {% else %}
 
         <div class="text-center py-5">
+
             <h5>No transactions yet</h5>
+
             <p class="text-muted">
-                Add your first transaction to get started.
+                Add your first transaction to start tracking.
             </p>
 
             <a href="{{ url_for('add_transaction') }}"
                class="btn btn-primary">
                 Add Transaction
             </a>
+
         </div>
 
         {% endif %}
 
     </div>
+
 </div>
 
 {% endblock %}
