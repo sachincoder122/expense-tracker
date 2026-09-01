@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block title %}Transactions{% endblock %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h2 class="fw-bold">All Transactions</h2>
+        <p class="text-muted mb-0">View your complete transaction history.</p>
+    </div>
+
+    <a href="{{ url_for('add_transaction') }}" class="btn btn-primary">
+        + Add Transaction
+    </a>
+</div>
+
+<div class="card shadow-sm border-0">
+
+    <div class="card-body">
+
+        {% if transactions %}
+
+        <div class="table-responsive">
+
+            <table class="table table-hover align-middle">
+
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Description</th>
+                        <th>Category</th>
+                        <th>Type</th>
+                        <th class="text-end">Amount</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                {% for t in transactions %}
+
+                    <tr>
+                        <td>{{ t["date"] }}</td>
+
+                        <td>{{ t["description"] }}</td>
+
+                        <td>{{ t["category"] }}</td>
+
+                        <td>
+                            {% if t["type"] == "income" %}
+                                <span class="badge bg-success">
+                                    Income
+                                </span>
+                            {% else %}
+                                <span class="badge bg-danger">
+                                    Expense
+                                </span>
+                            {% endif %}
+                        </td>
+
+                        <td class="text-end fw-bold">
+                            ₹{{ "%.2f"|format(t["amount"]) }}
+                        </td>
+                    </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        {% else %}
+
+        <div class="text-center py-5">
+            <h5>No transactions found</h5>
+
+            <p class="text-muted">
+                You haven't added any transactions yet.
+            </p>
+
+            <a href="{{ url_for('add_transaction') }}"
+               class="btn btn-primary">
+                Add Your First Transaction
+            </a>
+        </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+{% endblock %}
